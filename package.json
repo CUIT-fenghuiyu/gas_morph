@@ -1,0 +1,36 @@
+{
+  "name": "gasmorph-hackathon",
+  "version": "1.0.0",
+  "description": "GasMorph - Intent-driven Gas Subsidy Protocol for Monad Hackathon",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.ts --network localhost",
+    "test": "hardhat test",
+    "frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "chain": "hardhat node",
+    "start": "cd frontend && npm start",
+    "dev": "concurrently \"yarn chain\" \"yarn deploy\" \"yarn start\""
+  },
+  "keywords": [
+    "monad",
+    "erc4337",
+    "gas-subsidy",
+    "web3"
+  ],
+  "author": "GasMorph Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@openzeppelin/contracts": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "concurrently": "^8.2.2",
+    "hardhat": "^2.19.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "ethers": "^6.8.0"
+  }
+}
