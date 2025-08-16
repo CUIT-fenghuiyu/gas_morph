@@ -6,12 +6,16 @@
   "scripts": {
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:monad": "hardhat run scripts/deploy.ts --network monadTestnet",
     "test": "hardhat test",
     "frontend": "cd frontend && npm start",
     "build": "cd frontend && npm run build",
     "chain": "hardhat node",
     "start": "cd frontend && npm start",
-    "dev": "concurrently \"yarn chain\" \"yarn deploy\" \"yarn start\""
+    "dev": "concurrently \"yarn chain\" \"yarn deploy\" \"yarn start\"",
+    "admin:start-session": "hardhat run scripts/admin/start-session.ts --network monadTestnet",
+    "admin:mint-free": "hardhat run scripts/admin/mint-free.ts --network monadTestnet",
+    "admin:check-user": "hardhat run scripts/admin/check-user.ts --network monadTestnet"
   },
   "keywords": [
     "monad",

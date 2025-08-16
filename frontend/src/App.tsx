@@ -96,9 +96,75 @@ function App() {
           
           // 将 BigInt 转换为 Number 进行比较
           const chainId = Number(network.chainId);
-          if (chainId !== 1337) {
-            setError(`⚠️ 请切换到 Hardhat 本地网络 (Chain ID: 1337)，当前: ${chainId}`);
-            return;
+          
+          // 获取当前配置的网络
+          const targetChainId = 10143; // Monad 测试网
+          const targetChainIdHex = '0x279f'; // 10143 in hex
+          const targetNetworkName = 'Monad Testnet';
+          const targetRpcUrl = 'https://testnet-rpc.monad.xyz';
+          
+          // 如果不在目标网络，尝试自动切换
+          if (chainId !== targetChainId) {
+            console.log(`尝试切换到 ${targetNetworkName}...`);
+            try {
+              await (window as any).ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: targetChainIdHex }], // 10143 in hex
+              });
+              
+              // 重新获取网络信息
+              const newNetwork = await prov.getNetwork();
+              const newChainId = Number(newNetwork.chainId);
+              
+              if (newChainId !== targetChainId) {
+                // 如果切换失败，尝试添加网络
+                await (window as any).ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [{
+                    chainId: targetChainIdHex,
+                    chainName: targetNetworkName,
+                    nativeCurrency: {
+                      name: 'Monad',
+                      symbol: 'MONAD',
+                      decimals: 18
+                    },
+                    rpcUrls: [targetRpcUrl],
+                    blockExplorerUrls: ['https://explorer.testnet.monad.xyz/']
+                  }]
+                });
+              }
+              
+              console.log('网络切换成功');
+            } catch (switchError: any) {
+              console.error('网络切换失败:', switchError);
+              if (switchError.code === 4902) {
+                // 网络不存在，尝试添加
+                try {
+                  await (window as any).ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [{
+                      chainId: targetChainIdHex,
+                      chainName: targetNetworkName,
+                      nativeCurrency: {
+                        name: 'Monad',
+                        symbol: 'MONAD',
+                        decimals: 18
+                      },
+                      rpcUrls: [targetRpcUrl],
+                      blockExplorerUrls: ['https://explorer.testnet.monad.xyz/']
+                    }]
+                  });
+                  console.log('网络添加成功');
+                } catch (addError) {
+                  console.error('网络添加失败:', addError);
+                  setError(`请手动在 MetaMask 中添加 ${targetNetworkName} (Chain ID: ${targetChainId}, RPC: ${targetRpcUrl})`);
+                  return;
+                }
+              } else {
+                setError(`网络切换失败，请手动切换到 ${targetNetworkName}`);
+                return;
+              }
+            }
           }
           
           setUserAddress(address);
@@ -373,12 +439,7 @@ function App() {
               <h3>👤 用户信息</h3>
               <p><strong>地址:</strong> {userAddress}</p>
               <p><strong>NFT 余额:</strong> {nftBalance} 个</p>
-              <p><strong>资格状态:</strong> 
-                {isEligible ? 
-                  <span className="eligible">✅ 符合 Gas 补贴条件 (持有 NFT)</span> : 
-                  <span className="not-eligible">❌ 不符合条件 (无 NFT)</span>
-                }
-              </p>
+
               <p><strong>任务完成:</strong> {completedTasks.length}/3</p>
               <button onClick={handleDisconnect} className="disconnect-btn">
                 断开连接

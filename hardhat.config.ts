@@ -13,9 +13,11 @@ const config: HardhatUserConfig = {
   },
   networks: {
     monadTestnet: {
-      url: "https://rpc.testnet.monad.xyz/",
-      chainId: 1337,
+      url: "https://testnet-rpc.monad.xyz",
+      chainId: 10143,
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      timeout: 120000,
+      gas: 3000000,
     },
     hardhat: {
       chainId: 1337,

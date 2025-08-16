@@ -47,9 +47,14 @@ npm run chain
 
 # 部署合约
 npm run deploy
+
+# 部署到 Monad 测试网
+npm run deploy:monad
 ```
 
 ## 📋 合约地址
+
+### 本地网络 (Hardhat)
 
 部署完成后，你会看到类似以下的合约地址：
 
@@ -59,6 +64,30 @@ const CONTRACT_ADDRESSES = {
   PAYMASTER: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
   DEPLOYER: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 };
+```
+
+### Monad 测试网
+
+已部署到 Monad 测试网的合约地址：
+
+```javascript
+const CONTRACT_ADDRESSES = {
+  DEMO_NFT: "0x07366b687f74C1B6FA6f5Aa21C76678ea7F11F89",
+  PAYMASTER: "0x9ac77eA1280fF4dCf89b2D0f47bd15c396898945",
+  DEPLOYER: "0xa526F5D0c2627C099Ca83AE3A8F5d937B9C85fB2"
+};
+```
+
+**网络信息**:
+- **Chain ID**: 10143
+- **RPC URL**: https://testnet-rpc.monad.xyz
+- **区块浏览器**: https://explorer.testnet.monad.xyz/
+
+### 部署到测试网
+
+```bash
+# 部署到 Monad 测试网
+npm run deploy:monad
 ```
 
 ## 🧪 测试
