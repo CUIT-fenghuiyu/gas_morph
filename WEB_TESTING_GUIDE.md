@@ -1,144 +1,164 @@
-# GasMorph Web 端测试指南
+# GasMorph Web Testing Guide
 
-## 🚀 准备工作
+## 🎯 项目概述
 
-### 1. 确认服务运行状态
-- ✅ Hardhat 区块链节点：http://localhost:8545
-- ✅ 前端应用：http://localhost:3001
-- ✅ 合约已部署并可用
+GasMorph 是一个基于 ERC-4337 的意图驱动 Gas 补贴协议，为 Monad 生态系统提供创新的 Gas 费用解决方案。
 
-### 2. 测试账户信息
-```
-Account #0 (Deployer): 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+## 🚀 快速开始
 
-Account #1 (User): 0x70997970C51812dc3A010C7d01b50e0d17dc79C8  
-Private Key: 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
-```
+### 1. 环境准备
 
-### 3. 合约地址
-```
-DemoNFT: 0x5FbDB2315678afecb367f032d93F642f64180aa3
-GasMorphPaymaster: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+确保已安装以下依赖：
+- Node.js (v16+)
+- npm 或 yarn
+
+### 2. 安装依赖
+
+```bash
+npm install
 ```
 
-## 🧪 测试步骤
+### 3. 编译合约
 
-### 步骤 1: 访问应用
-1. 打开浏览器访问: **http://localhost:3001**
-2. 确认页面标题显示："GasMorph - Gas 补贴协议"
-3. 检查页面显示"Hardhat Local"网络标识
+```bash
+npm run compile
+```
 
-### 步骤 2: 连接钱包
-1. 点击"连接钱包"按钮
-2. 如果 MetaMask 提示添加网络，点击"添加网络"
-3. 确认自动切换到 Hardhat Local 网络 (Chain ID: 31337)
-4. 选择测试账户并连接
-5. 确认显示钱包地址和"钱包连接成功"消息
+### 4. 启动本地网络
 
-### 步骤 3: 测试任务系统
-1. 查看任务进度显示："已完成: 0/3"
-2. 点击"📋 查看任务"按钮
-3. 在弹出的任务列表中，点击每个任务的"完成"按钮
-4. 确认每个任务完成后显示"✅ 已完成"
-5. 完成至少2个任务后，确认"开启 2 分钟免 Gas 体验"按钮变为可用
+```bash
+npm run chain
+```
 
-### 步骤 4: 开启 Gas Session
-1. 点击"开启 2 分钟免 Gas 体验"按钮
-2. 确认 MetaMask 弹出交易确认
-3. 确认交易并等待处理
-4. 确认显示"Gas Session 已开启"消息
-5. 确认显示倒计时器和 Session 状态为"活跃中"
+### 5. 部署合约
 
-### 步骤 5: 测试 NFT 铸造（免费模式）
-1. 确认 Gas 状态显示"🟢 免费铸造 (Gas 已赞助)"
-2. 点击"🎨 Mint NFT"按钮
-3. 确认 MetaMask 弹出交易确认（Gas 费用应该很低或为0）
-4. 确认交易并等待处理
-5. 确认显示"🎉 NFT 铸造成功！Gas 已由 GasMorph 赞助！"
-6. 确认铸造历史显示新记录，状态为"✅ 免费"
-7. 重复几次铸造测试连续免费铸造
+```bash
+npm run deploy
+```
 
-### 步骤 6: 等待 Session 过期
-1. 等待 2 分钟倒计时结束
-2. 确认 Session 状态变为"Session 已过期"
-3. 确认 Gas 状态变为"🔴 需要支付 Gas 费用"
+## 📋 合约地址
 
-### 步骤 7: 测试 NFT 铸造（付费模式）
-1. 点击"🎨 Mint NFT"按钮
-2. 确认 MetaMask 显示需要支付 0.001 ETH
-3. 确认交易并等待处理
-4. 确认显示"🎉 NFT 铸造成功！您支付了 Gas 费用。"
-5. 确认铸造历史显示新记录，状态为"💰 付费"
+部署完成后，你会看到类似以下的合约地址：
 
-### 步骤 8: 验证区块链交易
-1. 在 Hardhat 节点终端查看交易日志
-2. 确认每次铸造都产生真实的区块链交易
-3. 记录交易哈希并验证其真实性
+```javascript
+const CONTRACT_ADDRESSES = {
+  DEMO_NFT: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  PAYMASTER: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  DEPLOYER: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+};
+```
 
-## 🔍 预期结果
+## 🧪 测试合约功能
 
-### 成功标准
-- ✅ 钱包连接成功并自动切换网络
-- ✅ 任务完成系统正常工作
-- ✅ Gas Session 开启和倒计时功能正常
-- ✅ 免费铸造模式正常工作（Session 活跃时）
-- ✅ 付费铸造模式正常工作（Session 过期后）
-- ✅ 所有交易都在区块链上产生真实记录
-- ✅ UI 状态实时更新反映正确信息
+### 运行测试脚本
 
-### 错误处理
-- ❌ 网络连接错误时显示适当错误消息
-- ❌ 交易失败时显示详细错误信息
-- ❌ 任务未完成时正确阻止 Session 开启
+```bash
+npx hardhat run test-contracts.js --network localhost
+```
 
-## 📊 性能指标
+### 测试结果示例
 
-### 交易时间
-- NFT 铸造：< 5秒
-- Gas Session 开启：< 5秒
-- 页面加载：< 3秒
+```
+🧪 开始测试 GasMorph 合约...
+📝 测试账户: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+✅ NFT 余额: 1
+✅ Session 状态: 活跃
+✅ Session 过期时间: 8/16/2025, 4:02:23 PM
+✅ NFT 持有验证: 通过
+✅ Session 验证: 通过
 
-### 用户体验
-- 操作反馈即时
-- 错误消息清晰
-- 状态更新及时
+🎉 所有测试通过！
+```
 
-## 🎯 Demo 重点
+## 🎨 前端开发
 
-1. **任务驱动机制** - 展示用户需要完成任务才能获得优惠
-2. **实时 Gas 状态** - 清晰显示当前是否享受免费 Gas
-3. **真实区块链交互** - 每次操作都产生真实交易
-4. **用户友好界面** - 现代化、响应式设计
+### 启动前端应用
 
-## 🚨 故障排除
+```bash
+npm run frontend
+```
+
+### 前端配置
+
+在 `frontend/src/` 目录中，确保配置正确的合约地址：
+
+```typescript
+// frontend/src/utils/erc4337.ts
+export const CONTRACT_ADDRESSES = {
+  DEMO_NFT: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  PAYMASTER: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+};
+```
+
+## 🔧 合约功能
+
+### DemoNFT 合约
+
+- **铸造 NFT**: 用户可以通过支付 0.001 ETH 铸造 NFT
+- **免费铸造**: 合约所有者可以为指定地址免费铸造 NFT
+- **余额查询**: 查询指定地址的 NFT 持有数量
+
+### GasMorphPaymaster 合约
+
+- **NFT 模式验证**: 验证用户是否持有指定的 NFT
+- **Session 模式验证**: 验证用户的 Gas Session 是否有效
+- **Session 管理**: 为指定地址开启 Gas Session
+
+## 🛠️ 开发模式
+
+使用以下命令同时启动所有服务：
+
+```bash
+npm run dev
+```
+
+这将同时启动：
+- 本地 Hardhat 网络
+- 合约部署
+- 前端开发服务器
+
+## 📊 监控和调试
+
+### 查看网络状态
+
+```bash
+npx hardhat console --network localhost
+```
+
+### 查看合约事件
+
+```bash
+npx hardhat verify --network localhost <CONTRACT_ADDRESS>
+```
+
+## 🔍 故障排除
 
 ### 常见问题
-1. **钱包连接失败**: 确认 MetaMask 已安装并解锁
-2. **网络错误**: 确认 Hardhat 节点正在运行
-3. **交易失败**: 检查账户余额是否足够
-4. **页面加载慢**: 确认前端服务正常运行
 
-### 重启服务
-```bash
-# 重启区块链节点
-yarn chain
+1. **编译错误**: 确保 Solidity 版本兼容 (^0.8.20)
+2. **部署失败**: 检查网络连接和账户余额
+3. **前端连接失败**: 确认合约地址正确且网络配置匹配
 
-# 重新部署合约
-yarn deploy
+### 日志查看
 
-# 重启前端
-yarn start
-```
+- 合约部署日志会显示在控制台
+- 前端错误可以在浏览器开发者工具中查看
+- Hardhat 网络日志会显示交易详情
 
-## 🎉 测试完成确认
+## 🎯 下一步
 
-完成所有测试步骤后，确认：
-- [ ] 钱包连接功能正常
-- [ ] 任务完成机制工作正常
-- [ ] Gas Session 管理功能正常
-- [ ] NFT 铸造（免费/付费）功能正常
-- [ ] 区块链交易记录真实有效
-- [ ] UI/UX 体验良好
+1. **集成 ERC-4337 Bundler**: 连接真实的 ERC-4337 基础设施
+2. **多链支持**: 扩展到其他 EVM 兼容链
+3. **高级功能**: 实现更复杂的 Gas 补贴策略
+4. **用户界面优化**: 改进前端用户体验
 
-**恭喜！GasMorph Demo 测试成功完成！** 🚀
+## 📞 支持
+
+如有问题，请查看：
+- 合约代码: `contracts/`
+- 前端代码: `frontend/`
+- 部署脚本: `scripts/`
+
+---
+
+**GasMorph Team** - 为 Monad 生态系统构建创新的 Gas 解决方案

@@ -266,7 +266,7 @@ export interface GasMorphPaymaster extends BaseContract {
   >;
 
   _validatePaymasterUserOp: TypedContractMethod<
-    [userOp: UserOperationStruct, userOpHash: BytesLike, maxCost: BigNumberish],
+    [userOp: UserOperationStruct, arg1: BytesLike, arg2: BigNumberish],
     [[string, bigint] & { context: string; validationData: bigint }],
     "view"
   >;
@@ -331,7 +331,7 @@ export interface GasMorphPaymaster extends BaseContract {
   getFunction(
     nameOrSignature: "_validatePaymasterUserOp"
   ): TypedContractMethod<
-    [userOp: UserOperationStruct, userOpHash: BytesLike, maxCost: BigNumberish],
+    [userOp: UserOperationStruct, arg1: BytesLike, arg2: BigNumberish],
     [[string, bigint] & { context: string; validationData: bigint }],
     "view"
   >;

@@ -88,15 +88,13 @@ contract GasMorphPaymaster is Ownable {
     /**
      * @dev 核心验证函数 - 实现 ERC-4337 Paymaster 接口
      * @param userOp UserOperation 结构
-     * @param userOpHash UserOperation 的哈希
-     * @param maxCost 最大成本
      * @return context 上下文数据
      * @return validationData 验证数据
      */
     function _validatePaymasterUserOp(
         UserOperation calldata userOp,
-        bytes32 userOpHash,
-        uint256 maxCost
+        bytes32 /* userOpHash */,
+        uint256 /* maxCost */
     ) external view returns (bytes memory context, uint256 validationData) {
         // 验证调用者是否为受信任的 Bundler
         if (msg.sender != bundler) {
