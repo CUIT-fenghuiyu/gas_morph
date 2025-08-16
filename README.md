@@ -101,21 +101,13 @@ npx hardhat run test-contracts.js --network localhost
 ### 启动前端
 
 ```bash
-npm run frontend
-```
-
-### 开发模式
-
-```bash
-npm run dev
+npm run
 ```
 
 ## 🔧 主要功能
 
 ### DemoNFT 合约
 - NFT 铸造功能
-- 余额查询
-- 权限管理
 
 ### GasMorphPaymaster 合约
 - ERC-4337 Paymaster 实现
